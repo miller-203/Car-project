@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { WhatsappFloatComponent } from './components/whatsapp-float/whatsapp-float.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, WhatsappFloatComponent],
   template: `
     <div class="app-container">
       <app-header></app-header>
@@ -15,6 +16,7 @@ import { FooterComponent } from './components/footer/footer.component';
         <router-outlet></router-outlet>
       </main>
       <app-footer></app-footer>
+      <app-whatsapp-float></app-whatsapp-float>
     </div>
   `,
   styles: [`
@@ -23,7 +25,7 @@ import { FooterComponent } from './components/footer/footer.component';
       display: flex;
       flex-direction: column;
     }
-    
+
     .main-content {
       flex: 1;
     }

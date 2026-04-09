@@ -48,3 +48,9 @@ INSERT INTO cars (category_id, name, model, example_model, year, seats, doors, t
 (5, 'Renault Arkana', 'Arkana', 'Renault Arkana E-Tech Full Hybrid', 2024, 5, 5, 'Automatique', 'Hybride', true, true, '/assets/cars/renault-arkana.png', 847.48, 606.50, true, NOW(), NOW()),
 
 (6, 'Mercedes-Benz A200', 'A200', 'Mercedes-Benz A200 Progressive BVA', 2024, 5, 5, 'Automatique', 'Essence', false, true, '/assets/cars/mercedes-a200.png', 2898.00, 2520.00, true, NOW(), NOW());
+
+
+-- Seed default admin user (password: password)
+INSERT INTO users (first_name, last_name, email, password, phone_number, role, is_preferred, created_at, updated_at)
+VALUES ('Admin', 'User', 'admin@carrental.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoOHiHL39xXc5N6iYG3PaY5E9OQj1YxD6.', '+212600000000', 'ADMIN', false, NOW(), NOW())
+ON CONFLICT (email) DO NOTHING;

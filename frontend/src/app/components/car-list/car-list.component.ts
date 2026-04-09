@@ -4,6 +4,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CarService } from '../../services/car.service';
 import { SearchService } from '../../services/search.service';
+import { AuthService } from '../../services/auth.service';
 import { Car } from '../../models/car.model';
 import { SearchRequest } from '../../models/reservation.model';
 
@@ -448,6 +449,7 @@ export class CarListComponent implements OnInit {
   constructor(
     private carService: CarService,
     private searchService: SearchService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -511,7 +513,12 @@ export class CarListComponent implements OnInit {
   }
 
   selectCar(car: Car, paymentType: string): void {
-    // Store selected car and payment type in localStorage for the reservation page
+    if (!this.authService.isLoggedIn()) {
+      localStorage.setItem('redirectAfterLogin', `/reservation/${car.id}`);
+      this.router.navigate(['/login']);
+      return;
+    }
+
     localStorage.setItem('selectedCar', JSON.stringify(car));
     localStorage.setItem('paymentType', paymentType);
     this.router.navigate(['/reservation', car.id]);

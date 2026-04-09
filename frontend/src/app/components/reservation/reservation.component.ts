@@ -523,6 +523,12 @@ export class ReservationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!this.authService.isLoggedIn()) {
+      localStorage.setItem('redirectAfterLogin', this.router.url);
+      this.router.navigate(['/login']);
+      return;
+    }
+
     // Load selected car
     const storedCar = localStorage.getItem('selectedCar');
     const storedPaymentType = localStorage.getItem('paymentType');
@@ -610,6 +616,7 @@ export class ReservationComponent implements OnInit {
         this.isLoading = false;
         this.reservationNumber = response.reservationNumber;
         this.showSuccessModal = true;
+        this.sendReservationToWhatsApp(response.reservationNumber);
         
         // Clear stored data
         localStorage.removeItem('selectedCar');
@@ -621,6 +628,15 @@ export class ReservationComponent implements OnInit {
         this.errorMessage = error.error?.message || 'Erreur lors de la réservation. Veuillez réessayer.';
       }
     });
+  }
+
+
+  private sendReservationToWhatsApp(reservationNumber: string): void {
+    const adminPhone = '212600000000';
+    const message = encodeURIComponent(
+      `Nouvelle réservation ${reservationNumber} par ${this.customerFirstName} ${this.customerLastName}. Email: ${this.customerEmail}, Téléphone: ${this.customerPhone}`
+    );
+    window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
   }
 
   goToHome(): void {

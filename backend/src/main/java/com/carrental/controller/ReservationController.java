@@ -14,22 +14,23 @@ import java.util.List;
 @RequestMapping("/api/reservations")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ReservationController {
-    
+
     @Autowired
     private ReservationService reservationService;
-    
+
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<ReservationResponse>> getUserReservations(@PathVariable Long userId) {
         return ResponseEntity.ok(reservationService.getUserReservations(userId));
     }
-    
+
     @GetMapping("/number/{reservationNumber}")
     public ResponseEntity<ReservationResponse> getReservationByNumber(@PathVariable String reservationNumber) {
         return ResponseEntity.ok(reservationService.getReservationByNumber(reservationNumber));
     }
-    
+
     @PostMapping("/create")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ReservationResponse> createReservation(@RequestBody ReservationRequest request) {
         return ResponseEntity.ok(reservationService.createReservation(request));
     }
