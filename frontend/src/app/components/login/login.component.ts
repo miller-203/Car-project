@@ -198,6 +198,17 @@ export class LoginComponent {
     
     this.authService.login(this.loginRequest).subscribe({
       next: () => {
+        const redirectUrl = localStorage.getItem('redirectAfterLogin');
+        if (redirectUrl) {
+          localStorage.removeItem('redirectAfterLogin');
+          this.router.navigateByUrl(redirectUrl);
+          return;
+        }
+        const currentUser = this.authService.getCurrentUser();
+        if (currentUser?.role === 'ADMIN') {
+          this.router.navigate(['/admin/cars']);
+          return;
+        }
         this.router.navigate(['/']);
       },
       error: (error) => {

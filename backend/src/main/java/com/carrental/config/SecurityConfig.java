@@ -74,7 +74,6 @@ public class SecurityConfig {
                     .requestMatchers("/api/agencies/**").permitAll()
                     .requestMatchers("/api/categories/**").permitAll()
                     .requestMatchers("/api/reservations/search").permitAll()
-                    .requestMatchers("/api/reservations/create").permitAll()
                     .requestMatchers("/api/reservations/number/**").permitAll()
                     .anyRequest().authenticated()
             );
