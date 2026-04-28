@@ -632,7 +632,7 @@ export class ReservationComponent implements OnInit {
 
 
   private sendReservationToWhatsApp(reservationNumber: string): void {
-    const adminPhone = '212600000000';
+    const adminPhone = '212619797080';
     const message = encodeURIComponent(
       `Nouvelle réservation ${reservationNumber} par ${this.customerFirstName} ${this.customerLastName}. Email: ${this.customerEmail}, Téléphone: ${this.customerPhone}`
     );
