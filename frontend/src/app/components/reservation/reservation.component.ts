@@ -616,7 +616,6 @@ export class ReservationComponent implements OnInit {
         this.isLoading = false;
         this.reservationNumber = response.reservationNumber;
         this.showSuccessModal = true;
-        this.sendReservationToWhatsApp(response.reservationNumber);
         
         // Clear stored data
         localStorage.removeItem('selectedCar');
@@ -630,14 +629,6 @@ export class ReservationComponent implements OnInit {
     });
   }
 
-
-  private sendReservationToWhatsApp(reservationNumber: string): void {
-    const adminPhone = '212619797080';
-    const message = encodeURIComponent(
-      `Nouvelle réservation ${reservationNumber} par ${this.customerFirstName} ${this.customerLastName}. Email: ${this.customerEmail}, Téléphone: ${this.customerPhone}`
-    );
-    window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
-  }
 
   goToHome(): void {
     this.showSuccessModal = false;
