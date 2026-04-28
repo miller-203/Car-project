@@ -44,6 +44,6 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class WhatsappFloatComponent {
-  private readonly adminPhone = '212600000000';
+  private readonly adminPhone = '212619797080';
   whatsappLink = `https://wa.me/${this.adminPhone}`;
 }

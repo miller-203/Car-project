@@ -4,6 +4,8 @@ import com.carrental.dto.*;
 import com.carrental.entity.*;
 import com.carrental.repository.*;
 import com.carrental.security.UserDetailsImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
+    private static final Logger logger = LoggerFactory.getLogger(ReservationService.class);
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -29,6 +32,9 @@ public class ReservationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WhatsAppNotificationService whatsAppNotificationService;
 
     public List<ReservationResponse> getUserReservations(Long userId) {
         return reservationRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
@@ -98,6 +104,12 @@ public class ReservationService {
         reservation.setStatus("CONFIRMED");
 
         reservationRepository.save(reservation);
+        try {
+            whatsAppNotificationService.sendNewReservationNotification(reservation);
+        } catch (Exception ex) {
+            logger.warn("Failed to send WhatsApp notification for reservation {}: {}",
+                    reservation.getReservationNumber(), ex.getMessage());
+        }
 
         return convertToResponse(reservation);
     }
